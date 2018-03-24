@@ -120,14 +120,14 @@ def load_stock_data(path, moving_window=128, columns=5, train_test_ratio=4.0):
     if os.path.isfile(dir_item_path):
       print(dir_item_path)
       ss, ls = process_data(load_csv(dir_item_path))
-      stocks_set = np.concatenate((stocks_set, ss), axis=0)
-      labels_set = np.concatenate((labels_set, ls), axis=0)
+      orig_stocks_set = np.concatenate((stocks_set, ss), axis=0)
+      orig_labels_set = np.concatenate((labels_set, ls), axis=0)
 
   # shuffling the data
   perm = np.arange(labels_set.shape[0])
   np.random.shuffle(perm)
-  stocks_set = stocks_set[perm]
-  labels_set = labels_set[perm]
+  stocks_set = orig_stocks_set[perm]
+  labels_set = orig_labels_set[perm]
 
   # normalize the data
   stocks_set_ = np.zeros(stocks_set.shape)
@@ -142,8 +142,8 @@ def load_stock_data(path, moving_window=128, columns=5, train_test_ratio=4.0):
   train_test_idx = int((1.0 / (train_test_ratio + 1.0)) * labels_set.shape[0])
   train_stocks = stocks_set[train_test_idx:,:,:]
   train_labels = labels_set[train_test_idx:]
-  test_stocks = stocks_set[:train_test_idx,:,:]
-  test_labels = labels_set[:train_test_idx]
+  test_stocks = orig_labels_set[:train_test_idx,:,:]
+  test_labels = orig_labels_set[:train_test_idx]
 
   train = DataSet(train_stocks, train_labels)
   test = DataSet(test_stocks, test_labels)
