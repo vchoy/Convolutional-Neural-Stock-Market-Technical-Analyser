@@ -142,7 +142,7 @@ def load_stock_data(path, moving_window=128, columns=5, train_test_ratio=4.0):
   train_test_idx = int((1.0 / (train_test_ratio + 1.0)) * labels_set.shape[0])
   train_stocks = stocks_set[train_test_idx:,:,:]
   train_labels = labels_set[train_test_idx:]
-  test_stocks = orig_labels_set[:train_test_idx,:,:]
+  test_stocks = orig_stocks_set[:train_test_idx,:,:]
   test_labels = orig_labels_set[:train_test_idx]
 
   train = DataSet(train_stocks, train_labels)
